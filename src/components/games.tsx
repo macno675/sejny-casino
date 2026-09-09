@@ -67,7 +67,7 @@ export function SlotsGame() {
 
     if (hasCrest && mult > 0) mult *= 1.02;
     const payout = Math.floor(bet * mult);
-    const result = settleBet({
+    const result = await settleBet({
       bet,
       payout,
       xp: 12 + Math.floor(mult * 4),
@@ -171,7 +171,7 @@ export function RouletteGame() {
       const bonus = hasPass && color !== "green" ? 1.05 : 1;
       payout = Math.floor(bet * base * bonus);
     }
-    settleBet({ bet, payout, xp: 18, dropChance: 0.11 });
+    await settleBet({ bet, payout, xp: 18, dropChance: 0.11 });
     setMessage(
       payout > 0
         ? `${landed} ${color.toUpperCase()} — +${formatCoins(payout)}`
@@ -359,7 +359,7 @@ export function BlackjackGame() {
     } else {
       msg = "Dealer wins.";
     }
-    settleBet({ bet, payout, xp: 20, dropChance: 0.12 });
+    await settleBet({ bet, payout, xp: 20, dropChance: 0.12 });
     setMessage(msg);
     setPhase("done");
     setBusy(false);
@@ -493,7 +493,7 @@ export function DiceGame() {
     if (mode === "doubles" && a === b) payout = bet * 6;
     if (mode === "high" && sum >= 8) payout = bet * 2;
     if (mode === "low" && sum <= 6) payout = bet * 2;
-    settleBet({ bet, payout, xp: 14, dropChance: 0.1 });
+    await settleBet({ bet, payout, xp: 14, dropChance: 0.1 });
     setMessage(
       payout > 0
         ? `${a}+${b}=${sum} — won ${formatCoins(payout)}`

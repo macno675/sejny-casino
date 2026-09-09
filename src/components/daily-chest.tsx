@@ -159,7 +159,7 @@ export function DailyChest() {
 
   async function open() {
     setError(null);
-    const result = openChest();
+    const result = await openChest();
     if (!result.ok) {
       setError(result.error);
       return;

@@ -30,13 +30,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const player = useCasinoStore(selectPlayer);
-  const sessionUser = useCasinoStore((s) => s.sessionUser);
   const logout = useCasinoStore((s) => s.logout);
   const hydrated = useCasinoStore((s) => s.hydrated);
 
   useEffect(() => {
-    if (hydrated && !sessionUser) router.replace("/login");
-  }, [hydrated, sessionUser, router]);
+    if (hydrated && !player) router.replace("/login");
+  }, [hydrated, player, router]);
 
   useEffect(() => {
     document.documentElement.classList.toggle(
@@ -127,8 +126,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => {
-                logout();
-                router.push("/");
+                void logout().then(() => router.push("/"));
               }}
               className="rounded-full border border-white/10 p-2 text-[var(--muted)] hover:text-white"
               aria-label="Log out"

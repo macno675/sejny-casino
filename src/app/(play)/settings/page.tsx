@@ -239,8 +239,8 @@ export default function SettingsPage() {
             )}
           </form>
           <p className="mt-6 text-xs text-[var(--muted)]">
-            Accounts are stored in this browser. Clearing site data removes
-            progress.
+            Progress is stored in Postgres (Prisma). Keep your password safe —
+            clearing the browser only ends the session cookie.
           </p>
         </Panel>
       )}

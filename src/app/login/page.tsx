@@ -5,12 +5,12 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthShell } from "@/components/auth-shell";
 import { Button, Input, Label } from "@/components/ui";
-import { useCasinoStore } from "@/store/casino-store";
+import { useCasinoStore, selectPlayer } from "@/store/casino-store";
 
 export default function LoginPage() {
   const router = useRouter();
   const login = useCasinoStore((s) => s.login);
-  const sessionUser = useCasinoStore((s) => s.sessionUser);
+  const player = useCasinoStore(selectPlayer);
   const hydrated = useCasinoStore((s) => s.hydrated);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +18,8 @@ export default function LoginPage() {
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    if (hydrated && sessionUser) router.replace("/lobby");
-  }, [hydrated, sessionUser, router]);
+    if (hydrated && player) router.replace("/lobby");
+  }, [hydrated, player, router]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();

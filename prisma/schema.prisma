@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                   String          @id @default(cuid())
+  username             String          @unique
+  passwordHash         String
+  displayName          String
+  coins                Int             @default(2500)
+  xp                   Int             @default(0)
+  level                Int             @default(1)
+  lastDailyClaim       String?
+  dailyStreak          Int             @default(0)
+  sound                Boolean         @default(true)
+  haptics              Boolean         @default(true)
+  reducedMotion        Boolean         @default(false)
+  winToasts            Boolean         @default(true)
+  publicOnLeaderboard  Boolean         @default(true)
+  avatarId             String          @default("jade")
+  gamesPlayed          Int             @default(0)
+  totalWon             Int             @default(0)
+  biggestWin           Int             @default(0)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  inventory            InventoryItem[]
+
+  @@index([coins(sort: Desc)])
+  @@index([publicOnLeaderboard, coins(sort: Desc)])
+}
+
+model InventoryItem {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardId     String
+  source     String
+  obtainedAt DateTime @default(now())
+
+  @@unique([userId, cardId])
+  @@index([userId, obtainedAt(sort: Desc)])
+}

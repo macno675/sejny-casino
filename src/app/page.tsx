@@ -6,16 +6,16 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { AmbientBackground } from "@/components/ambient-background";
 import { Button } from "@/components/ui";
-import { useCasinoStore } from "@/store/casino-store";
+import { selectPlayer, useCasinoStore } from "@/store/casino-store";
 
 export default function HomePage() {
   const router = useRouter();
-  const sessionUser = useCasinoStore((s) => s.sessionUser);
+  const player = useCasinoStore(selectPlayer);
   const hydrated = useCasinoStore((s) => s.hydrated);
 
   useEffect(() => {
-    if (hydrated && sessionUser) router.replace("/lobby");
-  }, [hydrated, sessionUser, router]);
+    if (hydrated && player) router.replace("/lobby");
+  }, [hydrated, player, router]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-[var(--cream)]">

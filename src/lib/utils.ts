@@ -9,14 +9,6 @@ export function formatCoins(value: number) {
   return new Intl.NumberFormat("en-US").format(Math.max(0, Math.floor(value)));
 }
 
-export async function hashPassword(password: string) {
-  const data = new TextEncoder().encode(`sejny:${password}`);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 export function todayKey(date = new Date()) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");

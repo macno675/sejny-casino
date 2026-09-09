@@ -6,38 +6,43 @@ Modern industrial dark-gaming casino: daily case opening, 3D collectible cards, 
 
 See **[DESIGN.md](./DESIGN.md)** for palette, typography, motion, and UI rules.
 
-## Run locally
+## Stack
+
+- Next.js App Router
+- Prisma + Postgres (Supabase pooler)
+- Zustand (client cache) + HTTP cookie sessions
+
+## Setup
 
 ```bash
+cp .env.example .env.local
+# fill DATABASE_URL, DIRECT_URL, AUTH_SECRET
+
 npm install
+npx prisma db push
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
-
-1. Push this repo to GitHub (already configured as `origin`).
-2. Import the project at [vercel.com/new](https://vercel.com/new).
-3. Framework preset: **Next.js** (auto-detected).
-4. Build command: `npm run build` · Output: Next.js default.
-5. No environment variables required (player data is browser-local).
-
-Or from CLI:
+## Database scripts
 
 ```bash
-npm i -g vercel
-vercel
-vercel --prod
+npm run db:push      # sync schema (dev)
+npm run db:generate  # prisma generate
+npm run db:studio    # Prisma Studio
 ```
 
-Region hint in `vercel.json`: `fra1` (Frankfurt). Change if you prefer another edge region.
+## Deploy on Vercel
+
+1. Import `macno675/sejny-casino` on Vercel.
+2. Set env vars (Production + Preview):
+   - `DATABASE_URL` (transaction pooler, port 6543, `?pgbouncer=true`)
+   - `DIRECT_URL` (session pooler, port 5432)
+   - `AUTH_SECRET` (long random string)
+3. Deploy. Build runs `prisma generate && next build`.
 
 ## Features
 
-- **Daily case** — CS-style horizontal spinner with center marker
-- **Inventory** — owned holographic cards only
-- **Games** — slower cinematic tables
-- **Leaderboard** + **Account** settings
-
-Progress persists in the browser (Zustand). External images load from Unsplash (`images.unsplash.com` allowlisted in `next.config.ts`).
+- Auth + player progress in Postgres
+- Daily case spinner, inventory cards, games, leaderboard, account settings

@@ -1,9 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
 import { useCasinoStore } from "@/store/casino-store";
 
 export function StoreHydration({ children }: { children: React.ReactNode }) {
   const hydrated = useCasinoStore((s) => s.hydrated);
+  const bootstrap = useCasinoStore((s) => s.bootstrap);
+
+  useEffect(() => {
+    void bootstrap();
+  }, [bootstrap]);
 
   if (!hydrated) {
     return (

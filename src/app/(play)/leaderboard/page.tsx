@@ -1,22 +1,21 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { AVATARS } from "@/lib/game-data";
 import { formatCoins } from "@/lib/utils";
-import {
-  buildLeaderboard,
-  selectAccounts,
-  selectPlayer,
-  useCasinoStore,
-} from "@/store/casino-store";
+import { selectPlayer, useCasinoStore } from "@/store/casino-store";
 import { Panel } from "@/components/ui";
 
 export default function LeaderboardPage() {
-  const accounts = useCasinoStore(selectAccounts);
+  const rows = useCasinoStore((s) => s.leaderboard);
+  const refreshLeaderboard = useCasinoStore((s) => s.refreshLeaderboard);
   const me = useCasinoStore(selectPlayer);
-  const rows = useMemo(() => buildLeaderboard(accounts), [accounts]);
+
+  useEffect(() => {
+    void refreshLeaderboard();
+  }, [refreshLeaderboard]);
 
   return (
     <div className="space-y-8">
@@ -28,15 +27,14 @@ export default function LeaderboardPage() {
           Leaderboard
         </h1>
         <p className="mt-2 text-[var(--muted)]">
-          Local players ranked by coins, then level. Toggle visibility in
-          Account.
+          Players ranked by coins, then level. Toggle visibility in Account.
         </p>
       </div>
 
       <Panel className="overflow-hidden p-0">
         {rows.length === 0 ? (
           <p className="p-8 text-[var(--muted)]">
-            No public players yet. Create a few accounts or enable leaderboard
+            No public players yet. Create accounts or enable leaderboard
             visibility.
           </p>
         ) : (
