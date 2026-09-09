@@ -73,9 +73,14 @@ export type GameSlug = "slots" | "roulette" | "blackjack" | "dice";
 export type GameMeta = {
   slug: GameSlug;
   name: string;
+  subtitle: string;
   blurb: string;
   minBet: number;
   maxBet: number;
   accent: string;
+  surface: string;
+  surfaceDeep: string;
   tag: string;
+  rating: number;
+  motif: string;
 };

@@ -85,7 +85,7 @@ export function SlotsGame() {
 
   return (
     <GameFrame
-      title={meta.name}
+      title={`${meta.name} ${meta.subtitle}`}
       blurb={meta.blurb}
       bet={bet}
       setBet={setBet}
@@ -182,7 +182,7 @@ export function RouletteGame() {
 
   return (
     <GameFrame
-      title={meta.name}
+      title={`${meta.name} ${meta.subtitle}`}
       blurb={meta.blurb}
       bet={bet}
       setBet={setBet}
@@ -367,7 +367,7 @@ export function BlackjackGame() {
 
   return (
     <GameFrame
-      title={meta.name}
+      title={`${meta.name} ${meta.subtitle}`}
       blurb={meta.blurb}
       bet={bet}
       setBet={setBet}
@@ -504,7 +504,7 @@ export function DiceGame() {
 
   return (
     <GameFrame
-      title={meta.name}
+      title={`${meta.name} ${meta.subtitle}`}
       blurb={meta.blurb}
       bet={bet}
       setBet={setBet}

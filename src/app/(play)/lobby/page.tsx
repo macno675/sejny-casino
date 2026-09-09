@@ -7,6 +7,7 @@ import { GAMES } from "@/lib/game-data";
 import { selectPlayer, useCasinoStore } from "@/store/casino-store";
 import { todayKey } from "@/lib/utils";
 import { Panel } from "@/components/ui";
+import { GameBox } from "@/components/game-box";
 
 export default function LobbyPage() {
   const player = useCasinoStore(selectPlayer);
@@ -99,7 +100,7 @@ export default function LobbyPage() {
       )}
 
       <section>
-        <div className="mb-4 flex items-end justify-between">
+        <div className="mb-5 flex items-end justify-between">
           <h2 className="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">
             Mini games
           </h2>
@@ -107,35 +108,9 @@ export default function LobbyPage() {
             Leaderboard
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {GAMES.map((game, index) => (
-            <motion.div
-              key={game.slug}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.06 * index, duration: 0.55 }}
-            >
-              <Link href={`/games/${game.slug}`} className="block h-full">
-                <Panel className="group relative h-full overflow-hidden transition hover:border-white/20">
-                  <div
-                    className="absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-50 blur-2xl transition group-hover:opacity-80"
-                    style={{ background: game.accent }}
-                  />
-                  <span className="rounded-full bg-white/8 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[var(--muted)]">
-                    {game.tag}
-                  </span>
-                  <h3 className="mt-4 font-[family-name:var(--font-display)] text-2xl text-white group-hover:text-[var(--gold)]">
-                    {game.name}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-                    {game.blurb}
-                  </p>
-                  <p className="mt-5 text-xs uppercase tracking-[0.16em]" style={{ color: game.accent }}>
-                    Bet {game.minBet}–{game.maxBet}
-                  </p>
-                </Panel>
-              </Link>
-            </motion.div>
+            <GameBox key={game.slug} game={game} index={index} />
           ))}
         </div>
       </section>

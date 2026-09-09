@@ -36,11 +36,12 @@ npm run db:studio    # Prisma Studio
 ## Deploy on Vercel
 
 1. Import `macno675/sejny-casino` on Vercel.
-2. Set env vars (Production + Preview):
-   - `DATABASE_URL` (transaction pooler, port 6543, `?pgbouncer=true`)
-   - `DIRECT_URL` (session pooler, port 5432)
-   - `AUTH_SECRET` (long random string)
-3. Deploy. Build runs `prisma generate && next build`.
+2. Set env vars for **Production** and **Preview**:
+   - `DATABASE_URL` — Supabase **transaction** pooler (`:6543`) with `?pgbouncer=true&connection_limit=1`
+   - `DIRECT_URL` — Supabase **session** pooler (`:5432`)
+   - `AUTH_SECRET` — long random string (required for login cookies)
+3. Redeploy after saving env vars.
+4. If `/api/auth/register` returns 500, open Vercel → Deployment → Logs; the API now returns the error message as JSON.
 
 ## Features
 

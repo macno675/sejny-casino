@@ -14,7 +14,26 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
     },
     credentials: "same-origin",
   });
-  return res.json() as Promise<T>;
+
+  const text = await res.text();
+  let data: unknown = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      return {
+        ok: false,
+        error: `Server returned non-JSON (${res.status}). Check Vercel env: DATABASE_URL, DIRECT_URL, AUTH_SECRET.`,
+      } as T;
+    }
+  } else {
+    return {
+      ok: false,
+      error: `Empty server response (${res.status}). Check Vercel logs and env vars.`,
+    } as T;
+  }
+
+  return data as T;
 }
 
 export type CasinoState = {
